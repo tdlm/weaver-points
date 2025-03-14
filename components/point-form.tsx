@@ -26,23 +26,13 @@ const calculatePoints = (answers: boolean[]): string => {
   return 'Uncertain';
 };
 
-export default function App() {
+export default function App(): JSX.Element {
   const [answers, setAnswers] = useState<boolean[]>(Array(questions.length).fill(false));
-  const [submitted, setSubmitted] = useState<boolean>(false);
 
   const toggleAnswer = (index: number): void => {
     const updated = [...answers];
     updated[index] = !updated[index];
     setAnswers(updated);
-  };
-
-  const handleSubmit = (): void => {
-    setSubmitted(true);
-  };
-
-  const handleReset = (): void => {
-    setAnswers(Array(questions.length).fill(false));
-    setSubmitted(false);
   };
 
   const suggestedPoints: string = calculatePoints(answers);
@@ -62,27 +52,11 @@ export default function App() {
           </label>
         </div>
       ))}
-      <div className="flex gap-4 mt-4">
-        <button
-          className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700"
-          onClick={handleSubmit}
-        >
-          Estimate Points
-        </button>
-        <button
-          className="px-4 py-2 rounded bg-gray-600 text-white hover:bg-gray-700"
-          onClick={handleReset}
-        >
-          Reset
-        </button>
-      </div>
 
-      {submitted && (
-        <div className="mt-6 p-4 border rounded bg-gray-100 dark:bg-gray-800 border-gray-400 dark:border-gray-600">
-          <strong className="block text-lg text-blue-800 dark:text-blue-300">Suggested Story Points:</strong>
-          <span className="text-xl font-bold text-gray-900 dark:text-gray-100">{suggestedPoints}</span>
-        </div>
-      )}
+      <div className="mt-6 p-4 border rounded bg-gray-100 dark:bg-gray-800 border-gray-400 dark:border-gray-600">
+        <strong className="block text-lg text-blue-800 dark:text-blue-300">Suggested Story Points:</strong>
+        <span className="text-xl font-bold text-gray-900 dark:text-gray-100">{suggestedPoints}</span>
+      </div>
     </div>
   );
 }
