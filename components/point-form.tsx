@@ -26,7 +26,7 @@ const calculatePoints = (answers: boolean[]): string => {
   return 'Uncertain';
 };
 
-export default function App(): JSX.Element {
+export default function App() {
   const [answers, setAnswers] = useState<boolean[]>(Array(questions.length).fill(false));
 
   const toggleAnswer = (index: number): void => {
