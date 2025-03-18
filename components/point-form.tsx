@@ -9,20 +9,37 @@ interface Question {
 
 const questions: Question[] = [
   { id: 1, text: 'Is it well-defined and small?' },
-  { id: 2, text: 'Does it have minor complexity or testing?' },
-  { id: 3, text: 'Multiple steps, moderate testing, or coordination?' },
-  { id: 4, text: 'Is there a learning curve, multiple systems, or envs?' },
-  { id: 5, text: 'Is it exploratory, ambiguous, or has external blockers?' },
-  { id: 6, text: 'Are there unknowns or risk of rabbit holes?' },
+  { id: 2, text: 'Does it require a deployment?' },
+  { id: 3, text: 'Does it have minor complexity or testing?' },
+  { id: 4, text: 'Multiple steps, moderate testing, or coordination?' },
+  { id: 5, text: 'Is there a learning curve, multiple systems, or envs?' },
+  { id: 6, text: 'Is it exploratory, ambiguous, or has external blockers?' },
+  { id: 7, text: 'Are there unknowns or risk of rabbit holes?' },
+  { id: 8, text: 'Does it include performance testing or benchmarking?' }
 ];
 
 const calculatePoints = (answers: boolean[]): string => {
-  if (answers[5]) return '8-13';
-  if (answers[4]) return '8-13';
-  if (answers[3]) return '5-8';
-  if (answers[2]) return '5';
-  if (answers[1]) return '3';
-  if (answers[0]) return '1-2';
+  let basePoints = 0;
+
+  if (answers[6]) basePoints = 8; // unknowns/rabbit holes
+  else if (answers[5]) basePoints = 8; // exploratory/ambiguous
+  else if (answers[4]) basePoints = 5; // learning curve / multi-env
+  else if (answers[3]) basePoints = 5; // multiple steps
+  else if (answers[2]) basePoints = 3; // minor complexity
+  else if (answers[0] && !answers[1]) basePoints = 1; // well-defined & no deploy
+  else basePoints = 2; // general fallback for defined but deployable task
+
+  if (answers[7]) basePoints += 1; // performance testing adds weight
+
+  if (basePoints <= 1) return '1';
+  if (basePoints === 2) return '2';
+  if (basePoints === 3) return '3';
+  if (basePoints === 4) return '3-5';
+  if (basePoints === 5) return '5';
+  if (basePoints === 6) return '5-8';
+  if (basePoints === 7) return '8';
+  if (basePoints >= 8) return '8-13';
+
   return 'Uncertain';
 };
 
